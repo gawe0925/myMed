@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Medication</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #f9f9f9;
+      font-family: 'Inter', 'Roboto', Arial, sans-serif;
+      min-height: 100vh;
+    }
+    /* 動畫區 */
+    @keyframes fadeOutDown {
+      0%   { opacity: 1; transform: translateY(0);}
+      100% { opacity: 0; transform: translateY(60px);}
+    }
+    @keyframes fadeInDown {
+      0%   { opacity: 0; transform: translateY(-60px);}
+      100% { opacity: 1; transform: translateY(0);}
+    }
+    .fade-out-down {
+      animation: fadeOutDown 0.7s cubic-bezier(.4,0,.2,1) forwards;
+      pointer-events: none;
+    }
+    .fade-in-down {
+      animation: fadeInDown 0.7s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    .hide {
+      display: none !important;
+    }
+    .center-page {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #f9f9f9;
+      z-index: 10;
+      opacity: 1;
+      pointer-events: auto;
+      transition: none;
+    }
+    .center-card {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 36px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      min-width: 480px;
+      max-width: 600px;
+      width: 100%;
+    }
+    .center-card .input-row {
+      width: 100%;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      position: relative;
+    }
+    .center-card input[type="text"] {
+      height: 40px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      outline: none;
+      padding: 0 12px;
+      background: #fafbfc;
+      flex: 1 1 0;
+      min-width: 0;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .center-card button {
+      background: #6c63ff;
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      border-radius: 8px;
+      height: 40px;
+      min-width: 110px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .center-card button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .center-card button:hover:not(:disabled) {
+      background: #574fd6;
+    }
+    .center-card .autocomplete-suggestions {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-top: 2px;
+      width: 100%;
+      z-index: 10;
+      max-height: 160px;
+      overflow-y: auto;
+      display: none;
+    }
+    .center-card .autocomplete-suggestion {
+      padding: 9px 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 15px;
+    }
+    .center-card .autocomplete-suggestion:hover, .center-card .autocomplete-suggestion.active {
+      background: #eaeaff;
+    }
+    .container {
+      display: flex;
+      min-height: 100vh;
+      height: 100vh;
+      max-width: 1100px;
+      margin: 0 auto;
+      gap: 48px;
+      justify-content: center;
+      align-items: center;
+      transition: justify-content 0.6s cubic-bezier(.77,0,.18,1);
+    }
+    .container.has-list {
+      justify-content: flex-start;
+    }
+    .left-panel, .right-panel {
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      padding: 28px 20px;
+      transition: transform 0.6s cubic-bezier(.77,0,.18,1);
+    }
+    .left-panel {
+      min-width: 320px;
+      max-width: 400px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+      margin: auto;
+      transform: translateX(0);
+      transition: align-items 0.6s cubic-bezier(.77,0,.18,1), transform 0.6s cubic-bezier(.77,0,.18,1);
+    }
+    .container.has-list .left-panel {
+      margin: 0;
+      transform: translateX(-60px);
+    }
+    .right-panel {
+      min-width: 420px;
+      max-width: 560px;
+      width: 100%;
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-height: 80vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+    .input-row, .list-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      position: relative;
+    }
+    .input-row input[type="text"],
+    .input-row button,
+    .list-row select,
+    .list-row button {
+      flex: 1 1 0;
+      min-width: 0;
+      max-width: none;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .input-row button,
+    .list-row button {
+      width: 110px;
+      min-width: 110px;
+      max-width: 110px;
+      flex: 0 0 110px;
+      margin-left: 0;
+    }
+    .input-row input[type="text"],
+    .list-row select {
+      width: 0;
+      min-width: 0;
+      flex: 1 1 0;
+    }
+    input[type="text"], select, button {
+      height: 40px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      outline: none;
+    }
+    input[type="text"], select {
+      padding: 0 12px;
+      background: #fafbfc;
+    }
+    button {
+      background: #6c63ff;
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #574fd6;
+    }
+    .list-row button {
+      margin-left: 0;
+    }
+    .list-card {
+      background: #f4f4fa;
+      border-radius: 10px;
+      padding: 14px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      margin-bottom: 0;
+      margin-top: 0;
+      box-sizing: border-box;
+      min-width: 0;
+      word-break: break-word;
+    }
+    .list-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      min-width: 0;
+    }
+    .list-title {
+      font-weight: bold;
+      font-size: 17px;
+      margin-bottom: 0;
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      padding: 2px 4px;
+      border-radius: 6px;
+      transition: background 0.2s;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .list-title:focus {
+      background: #eaeaff;
+    }
+    .delete-list-btn,
+    .delete-btn {
+      background: #ff5b5b;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .delete-list-btn {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      min-height: 32px;
+    }
+    .delete-btn {
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      min-height: 22px;
+      font-size: 12px;
+      margin-right: 8px;
+      margin-left: 0;
+    }
+    .delete-list-btn:hover,
+    .delete-btn:hover {
+      background: #d43c3c;
+    }
+    ul {
+      padding-left: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .list-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 6px;
+      background: #fff;
+      border-radius: 6px;
+      font-size: 15px;
+      padding: 7px 10px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+      transition: background 0.2s;
+      min-width: 0;
+      box-sizing: border-box;
+      word-break: break-word;
+      cursor: pointer;
+      flex-direction: column;
+    }
+    .list-item > .list-item-row {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 10px;
+    }
+    .list-item .item-index {
+      font-weight: bold;
+      font-size: 15px;
+      color: #6c63ff;
+      margin-right: 6px;
+      min-width: 18px;
+      text-align: right;
+    }
+    .list-item .item-name {
+      font-size: 17px;
+      font-weight: bold;
+      color: #222;
+    }
+    .list-item .item-keyword {
+      color: #888;
+      font-size: 14px;
+      font-weight: normal;
+      margin-left: 4px;
+    }
+    .list-item.expanded .item-name {
+      font-size: 19px;
+    }
+    .list-item .item-use {
+      font-size: 15px;
+      color: #333;
+      margin-left: 30px;
+      margin-top: 3px;
+      font-weight: 500;
+    }
+    .list-item .item-use-label {
+      font-size: 18px;
+      font-weight: bold;
+      color: #574fd6;
+      margin-right: 8px;
+    }
+    .list-item.expanded {
+      background: #eaeaff;
+    }
+    .autocomplete-suggestions {
+      position: absolute;
+      left: 0;
+      top: 100%;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-top: 2px;
+      width: 100%;
+      z-index: 10;
+      max-height: 160px;
+      overflow-y: auto;
+      display: none;
+    }
+    .autocomplete-suggestion {
+      padding: 9px 12px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 15px;
+    }
+    .autocomplete-suggestion:hover, .autocomplete-suggestion.active {
+      background: #eaeaff;
+    }
+    .right-panel::-webkit-scrollbar {
+      width: 10px;
+    }
+    .right-panel::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    .right-panel::-webkit-scrollbar-thumb {
+      background: #c7c7f7;
+      border-radius: 10px;
+    }
+    .right-panel::-webkit-scrollbar-thumb:hover {
+      background: #b0b0e6;
+    }
+    .right-panel {
+      scrollbar-width: thin;
+      scrollbar-color: #c7c7f7 #f1f1f1;
+    }
+    .delete-all-btn {
+      margin-top: 14px;
+      background: #ff5b5b;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 0;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      width: 100%;
+    }
+    .delete-all-btn:hover {
+      background: #d43c3c;
+    }
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        gap: 16px;
+        max-width: 98vw;
+        min-height: unset;
+        height: auto;
+        align-items: stretch;
+      }
+      .right-panel, .left-panel {
+        max-width: 100%;
+        min-width: 0;
+        padding: 14px 7px;
+      }
+      .right-panel {
+        max-width: 100vw;
+        min-width: 0;
+      }
+      .left-panel {
+        min-width: 0;
+        max-width: 100vw;
+      }
+      .list-card {
+        padding: 10px 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Center input page -->
+  <div class="center-page" id="centerPage">
+    <div class="center-card">
+      <h1>My Medication</h1>
+      <div class="input-row">
+        <input type="text" id="centerMedInput" placeholder="Enter medication name" autocomplete="off">
+        <button id="centerAddBtn" disabled>Add</button>
+        <div id="centerAutocomplete" class="autocomplete-suggestions"></div>
+      </div>
+      <div id="centerMedInfo" style="margin-top:14px;width:100%;"></div>
+    </div>
+  </div>
+  <!-- Main app -->
+  <div class="container fade-anim hide" id="container">
+    <div class="left-panel">
+      <h2>My Medication</h2>
+      <div class="input-row">
+        <input type="text" id="medInput" placeholder="Enter medication name" autocomplete="off">
+        <button id="addBtn" disabled>Add</button>
+        <div id="autocomplete" class="autocomplete-suggestions"></div>
+      </div>
+      <div class="list-row" id="listRow" style="display:none;">
+        <select id="listSelect"></select>
+        <button id="addListBtn">Add List</button>
+      </div>
+      <div id="addMsg" style="color:#ff5b5b;min-height:22px;font-size:18px;margin-top:10px;"></div>
+    </div>
+    <div class="right-panel" id="rightPanel"></div>
+  </div>
+
+
+  <!-- === 筆記編輯頁面：新增區塊 === -->
+  <div class="note-page hide" id="notePage" style="position:fixed;top:0;left:0;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;z-index:20;background:#f9f9f9;">
+    <div class="note-card" style="background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:36px 28px;min-width:340px;max-width:90vw;width:100%;display:flex;flex-direction:column;gap:18px;">
+      <div id="noteDrugName" style="font-size:20px;font-weight:bold;color:#222;margin-bottom:8px;"></div>
+      <textarea id="noteInput" rows="6" style="width:100%;font-size:15px;border-radius:8px;border:1px solid #ddd;padding:10px;resize:vertical;"></textarea>
+      <div style="display:flex;gap:12px;">
+        <button id="saveNoteBtn" style="flex:1 1 0;">Save</button>
+        <button id="cancelNoteBtn" style="flex:1 1 0;background:#ccc;color:#222;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+
+    // === 筆記功能：新增變數 ===
+    let noteEditingListIdx = null;
+    let noteEditingItemIdx = null;
+
+    let medData = [];
+    let lists = [];
+    let currentListIndex = null;
+    let editingListName = false;
+    let expandedItems = {}; // key: `${listIdx}_${itemIdx}`
+
+    // Center input
+    const centerPage = document.getElementById('centerPage');
+    const centerMedInput = document.getElementById('centerMedInput');
+    const centerAddBtn = document.getElementById('centerAddBtn');
+    const centerAutocomplete = document.getElementById('centerAutocomplete');
+    const centerMedInfo = document.getElementById('centerMedInfo');
+
+    // Main app
+    const container = document.getElementById('container');
+    const leftPanel = document.querySelector('.left-panel');
+    const rightPanel = document.getElementById('rightPanel');
+    const medInput = document.getElementById('medInput');
+    const addBtn = document.getElementById('addBtn');
+    const listSelect = document.getElementById('listSelect');
+    const addListBtn = document.getElementById('addListBtn');
+    const listRow = document.getElementById('listRow');
+    const autocomplete = document.getElementById('autocomplete');
+
+    fetch('medications.json')
+      .then(res => res.json())
+      .then(data => {
+        medData = data;
+        centerMedInput.addEventListener('input', centerMedInputHandler);
+        centerAutocomplete.addEventListener('mousedown', centerAutocompleteHandler);
+        medInput.addEventListener('input', medInputHandler);
+        autocomplete.addEventListener('mousedown', medAutocompleteHandler);
+      });
+
+    function centerMedInputHandler() {
+      const val = centerMedInput.value.trim();
+      if (!val) {
+        centerAutocomplete.style.display = 'none';
+        checkCenterAddBtn();
+        centerMedInfo.innerHTML = '';
+        return;
+      }
+      const suggestions = medData.filter(med => med.name.toLowerCase().includes(val.toLowerCase()));
+      if (suggestions.length === 0) {
+        centerAutocomplete.style.display = 'none';
+        checkCenterAddBtn();
+        centerMedInfo.innerHTML = '';
+        return;
+      }
+      centerAutocomplete.innerHTML = suggestions.map((med, idx) =>
+        `<div class="autocomplete-suggestion" data-med="${med.name}">${med.name}</div>`
+      ).join('');
+      centerAutocomplete.style.display = 'block';
+      checkCenterAddBtn();
+      showMedInfo(val);
+    }
+
+    function centerAutocompleteHandler(e) {
+      if (e.target.classList.contains('autocomplete-suggestion')) {
+        centerMedInput.value = e.target.getAttribute('data-med');
+        centerAutocomplete.style.display = 'none';
+        checkCenterAddBtn();
+        showMedInfo(centerMedInput.value);
+      }
+    }
+
+    function checkCenterAddBtn() {
+      const val = centerMedInput.value.trim();
+      centerAddBtn.disabled = !(val && medData.some(m => m.name === val));
+    }
+
+    function showMedInfo(val) {
+      if (!val) {
+        centerMedInfo.innerHTML = '';
+        return;
+      }
+      const med = medData.find(m => m.name.toLowerCase() === val.toLowerCase());
+      if (med) {
+        centerMedInfo.innerHTML = `
+          <div style="background:#f4f4fa;padding:10px 14px;border-radius:8px;">
+            <div style="font-size:17px;font-weight:bold;margin-bottom:6px;"><strong>Medication:</strong> ${med.name}</div>
+            <span class="item-use-label" style="font-size:18px;font-weight:bold;color:#574fd6;margin-right:8px;">Use for:</span>
+            <span style="font-size:15px;color:#333;font-weight:500;">${med.use}</span>
+          </div>
+        `;
+      } else {
+        centerMedInfo.innerHTML = '';
+      }
+    }
+
+    document.addEventListener('mousedown', function(e) {
+      if (!centerAutocomplete.contains(e.target) && e.target !== centerMedInput) {
+        centerAutocomplete.style.display = 'none';
+      }
+      if (!autocomplete.contains(e.target) && e.target !== medInput) {
+        autocomplete.style.display = 'none';
+      }
+    });
+
+    function fadeOutDownAndThen(el, cb) {
+      el.classList.remove('fade-in-down');
+      void el.offsetWidth;
+      el.classList.remove('hide');
+      el.classList.add('fade-out-down');
+      el.addEventListener('animationend', function handler() {
+        el.classList.remove('fade-out-down');
+        el.classList.add('hide');
+        el.removeEventListener('animationend', handler);
+        if (typeof cb === 'function') cb();
+      });
+    }
+
+    function fadeInDownAndThen(el, cb) {
+      el.classList.remove('hide', 'fade-out-down', 'fade-in-down');
+      void el.offsetWidth;
+      el.classList.add('fade-in-down');
+      el.addEventListener('animationend', function handler() {
+        el.classList.remove('fade-in-down');
+        if (typeof cb === 'function') cb();
+        el.removeEventListener('animationend', handler);
+      });
+    }
+
+    // 切換到主頁（container）
+    function goToMainPage() {
+      fadeOutDownAndThen(centerPage, () => {
+        container.classList.remove('hide');
+        render();
+      });
+    }
+
+    // 切換回首頁（centerPage）
+    function goToCenterPage() {
+      container.classList.add('hide');
+      fadeInDownAndThen(centerPage, () => {
+        centerMedInput.value = '';
+        centerMedInput.focus();
+      });
+    }
+
+    centerAddBtn.onclick = () => {
+      const val = centerMedInput.value.trim();
+      if (!val) return;
+      const medObj = medData.find(m => m.name === val);
+      if (!medObj) return;
+      lists = [{ name: 'List 1', items: [medObj] }];
+      currentListIndex = 0;
+      expandedItems = {};
+      centerMedInput.value = '';
+      centerAutocomplete.style.display = 'none';
+      centerMedInfo.innerHTML = '';
+      goToMainPage();
+    };
+
+    function medInputHandler() {
+      const val = medInput.value.trim();
+      if (!val) {
+        autocomplete.style.display = 'none';
+        checkAddBtn();
+        return;
+      }
+      const suggestions = medData.filter(med => med.name.toLowerCase().includes(val.toLowerCase()));
+      if (suggestions.length === 0) {
+        autocomplete.style.display = 'none';
+        checkAddBtn();
+        return;
+      }
+      autocomplete.innerHTML = suggestions.map((med, idx) =>
+        `<div class="autocomplete-suggestion" data-med="${med.name}">${med.name}</div>`
+      ).join('');
+      autocomplete.style.display = 'block';
+      checkAddBtn();
+    }
+
+    function medAutocompleteHandler(e) {
+      if (e.target.classList.contains('autocomplete-suggestion')) {
+        medInput.value = e.target.getAttribute('data-med');
+        autocomplete.style.display = 'none';
+        checkAddBtn();
+      }
+    }
+
+    function checkAddBtn() {
+      const val = medInput.value.trim();
+      addBtn.disabled = !(val && medData.some(m => m.name === val));
+    }
+
+    function render() {
+      if (lists.length === 0) {
+        goToCenterPage();
+        rightPanel.innerHTML = '';
+        rightPanel.style.pointerEvents = 'none';
+        listRow.style.display = 'none';
+        return;
+      }
+      centerPage.classList.add('hide');
+      container.classList.remove('hide');
+      rightPanel.style.pointerEvents = 'auto';
+      listRow.style.display = '';
+      rightPanel.innerHTML =
+        lists.map((list, idx) => `
+          <div class="list-card" data-list-idx="${idx}">
+            <div class="list-title-row">
+              <input class="list-title" value="${list.name}" data-idx="${idx}" />
+              <button class="delete-list-btn" title="Delete List" data-idx="${idx}">&times;</button>
+            </div>
+            <ul>
+
+              ${list.items.map((item, jdx) => {
+                const key = `${idx}_${jdx}`;
+                if (expandedItems[key]) {
+                  return `
+                    <li class="list-item expanded" data-key="${key}">
+                      <div class="list-item-row">
+                        <span class="item-index">${jdx + 1}.</span>
+                        <button class="delete-btn" title="Delete" data-idx="${jdx}" data-list-idx="${idx}">&times;</button>
+                        <button class="note-btn" title="Note" data-list-idx="${idx}" data-item-idx="${jdx}" style="background:#6c63ff;color:#fff;border:none;border-radius:6px;padding:0 10px;min-width:42px;height:28px;font-size:13px;cursor:pointer;margin-right:8px;">Note</button>
+                        <span class="item-name">${item.name}</span>
+                      </div>
+                      <div class="item-use">
+                        <span class="item-use-label">Use for:</span>
+                        ${item.use}
+                      </div>
+                      ${item.note ? `<div class="item-note" style="margin-left:30px;margin-top:6px;color:#574fd6;font-size:18px;"><strong>Note:</strong> ${item.note}</div>` : ''}
+                    </li>
+                  `;
+                } else {
+                  return `
+                    <li class="list-item" data-key="${key}">
+                      <div class="list-item-row">
+                        <span class="item-index">${jdx + 1}.</span>
+                        <button class="delete-btn" title="Delete" data-idx="${jdx}" data-list-idx="${idx}">&times;</button>
+                        <button class="note-btn" title="Note" data-list-idx="${idx}" data-item-idx="${jdx}" style="background:#6c63ff;color:#fff;border:none;border-radius:6px;padding:0 10px;min-width:42px;height:28px;font-size:13px;cursor:pointer;margin-right:8px;">Note</button>
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-keyword">(${item.keyword})</span>
+                      </div>
+                      ${item.note ? `<div class="item-note" style="margin-left:30px;margin-top:6px;color:#574fd6;font-size:18px;"><strong>Note:</strong> ${item.note}</div>` : ''}
+                    </li>
+                  `;
+                }
+              }).join('')}
+
+
+            </ul>
+          </div>
+        `).join('') +
+        `<button class="delete-all-btn" id="deleteAllBtn">Delete All Lists</button>`;
+
+        listSelect.innerHTML = lists.map((list, idx) =>
+          `<option value="${idx}" ${idx === currentListIndex ? 'selected' : ''}>${list.name}</option>`
+        ).join('');
+        listSelect.value = currentListIndex !== null ? currentListIndex : 0;
+
+      // 刪除全部清單
+      const deleteAllBtn = document.getElementById('deleteAllBtn');
+      if (deleteAllBtn) {
+        deleteAllBtn.onclick = function() {
+          lists = [];
+          currentListIndex = null;
+          expandedItems = {};
+          goToCenterPage();
+        };
+      }
+    }
+
+    addListBtn.onclick = () => {
+      const defaultName = `List ${lists.length + 1}`;
+      lists.push({ name: defaultName, items: [] });
+      currentListIndex = lists.length - 1;
+      render();
+    };
+
+    addBtn.onclick = () => {
+      const val = medInput.value.trim();
+      const addMsg = document.getElementById('addMsg');
+      addMsg.textContent = ''; // 先清空訊息
+      if (!val) return;
+      const medObj = medData.find(m => m.name === val);
+      if (!medObj) return;
+      if (lists.length === 0) {
+        lists.push({ name: 'List 1', items: [medObj] });
+        currentListIndex = 0;
+      } else {
+        const exists = lists[currentListIndex].items.some(item => item.name === medObj.name);
+        if (exists) {
+          // 顯示訊息
+          addMsg.textContent = `Already exists in ${lists[currentListIndex].name} list`;
+          medInput.value = '';
+          autocomplete.style.display = 'none';
+          return;
+        }
+        lists[currentListIndex].items.push(medObj);
+      }
+      medInput.value = '';
+      autocomplete.style.display = 'none';
+      addMsg.textContent = ''; // 新增成功時清空訊息
+      render();
+    };
+
+
+
+    listSelect.onchange = () => {
+      currentListIndex = Number(listSelect.value);
+      render();
+    };
+
+    rightPanel.addEventListener('click', function(e) {
+
+      // === 筆記功能：note 按鈕事件 ===
+      if (e.target.classList.contains('note-btn')) {
+        noteEditingListIdx = Number(e.target.getAttribute('data-list-idx'));
+        noteEditingItemIdx = Number(e.target.getAttribute('data-item-idx'));
+        // 預設 note 欄位
+        if (!lists[noteEditingListIdx].items[noteEditingItemIdx].hasOwnProperty('note')) {
+          lists[noteEditingListIdx].items[noteEditingItemIdx].note = '';
+        }
+        document.getElementById('noteInput').value = lists[noteEditingListIdx].items[noteEditingItemIdx].note || '';
+        // 新增：顯示藥名
+        document.getElementById('noteDrugName').textContent = 'Note for : ' + lists[noteEditingListIdx].items[noteEditingItemIdx].name;
+        container.classList.add('hide');
+        document.getElementById('notePage').classList.remove('hide');
+        return;
+      }
+
+
+      if (e.target.classList.contains('list-item') || e.target.closest('.list-item')) {
+        const li = e.target.classList.contains('list-item') ? e.target : e.target.closest('.list-item');
+        const key = li.getAttribute('data-key');
+        if (key && !e.target.classList.contains('delete-btn')) {
+          expandedItems[key] = !expandedItems[key];
+          render();
+          return;
+        }
+      }
+      if (e.target.classList.contains('delete-btn')) {
+        const listIdx = Number(e.target.getAttribute('data-list-idx'));
+        const idx = Number(e.target.getAttribute('data-idx'));
+        lists[listIdx].items.splice(idx, 1);
+        const key = `${listIdx}_${idx}`;
+        delete expandedItems[key];
+        if (lists[listIdx].items.length === 0) {
+          lists.splice(listIdx, 1);
+          if (lists.length === 0) {
+            currentListIndex = null;
+          } else if (currentListIndex >= lists.length) {
+            currentListIndex = lists.length - 1;
+          }
+        }
+        render();
+        return;
+      }
+      if (e.target.classList.contains('delete-list-btn')) {
+        const idx = Number(e.target.getAttribute('data-idx'));
+        lists.splice(idx, 1);
+        Object.keys(expandedItems).forEach(key => {
+          if (key.startsWith(idx + '_')) delete expandedItems[key];
+        });
+        if (lists.length === 0) {
+          currentListIndex = null;
+        } else if (currentListIndex >= lists.length) {
+          currentListIndex = lists.length - 1;
+        }
+        render();
+        return;
+      }
+      if (e.target.classList.contains('list-card') || e.target.closest('.list-card')) {
+        const card = e.target.classList.contains('list-card') ? e.target : e.target.closest('.list-card');
+        const idx = Number(card.getAttribute('data-list-idx'));
+        if (currentListIndex !== idx) {
+          currentListIndex = idx;
+          render();
+        }
+      }
+    });
+
+    rightPanel.addEventListener('input', function(e) {
+      if (e.target.classList.contains('list-title')) {
+        editingListName = true;
+        const idx = Number(e.target.getAttribute('data-idx'));
+        lists[idx].name = e.target.value;
+        listSelect.options[idx].text = e.target.value;
+      }
+    });
+    rightPanel.addEventListener('blur', function(e) {
+      if (e.target.classList.contains('list-title')) {
+        editingListName = false;
+        render();
+      }
+    }, true);
+
+    window.onload = () => {
+      centerMedInput.focus();
+    };
+
+    // === 筆記功能：Save/Cancel 事件 ===
+    document.getElementById('saveNoteBtn').onclick = () => {
+      if (noteEditingListIdx !== null && noteEditingItemIdx !== null) {
+        lists[noteEditingListIdx].items[noteEditingItemIdx].note = document.getElementById('noteInput').value;
+      }
+      document.getElementById('notePage').classList.add('hide');
+      container.classList.remove('hide');
+      render();
+    };
+    document.getElementById('cancelNoteBtn').onclick = () => {
+      document.getElementById('notePage').classList.add('hide');
+      container.classList.remove('hide');
+    };
+
+
+  </script>
+
+
+
+</body>
+</html>

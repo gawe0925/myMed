@@ -1,0 +1,602 @@
+[
+  {
+    "id": 1,
+    "name": "Metformin",
+    "use": "Lowers blood sugar levels in patients with Type 2 Diabetes",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 2,
+    "name": "Atorvastatin",
+    "use": "Reduces cholesterol to prevent heart attacks and strokes",
+    "keyword": "Cholesterol"
+  },
+  {
+    "id": 3,
+    "name": "Amlodipine",
+    "use": "Lowers high blood pressure and prevents chest pain",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 4,
+    "name": "Ramipril",
+    "use": "Reduces blood pressure and protects kidney function",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 5,
+    "name": "Losartan",
+    "use": "Lowers blood pressure and protects kidneys in diabetic patients",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 6,
+    "name": "Sertraline",
+    "use": "Improves mood and reduces symptoms of depression and anxiety",
+    "keyword": "Mental Health"
+  },
+  {
+    "id": 7,
+    "name": "Pantoprazole",
+    "use": "Decreases stomach acid to relieve reflux and heartburn",
+    "keyword": "Digestive Health"
+  },
+  {
+    "id": 8,
+    "name": "Salbutamol",
+    "use": "Relieves wheezing and shortness of breath in asthma or COPD",
+    "keyword": "Respiratory"
+  },
+  {
+    "id": 9,
+    "name": "Pregabalin",
+    "use": "Relieves nerve pain and controls seizures",
+    "keyword": "Pain Management"
+  },
+  {
+    "id": 10,
+    "name": "Amoxicillin-Clavulanic Acid",
+    "use": "Treats bacterial infections including respiratory and urinary tract",
+    "keyword": "Antibiotic"
+  },
+  {
+    "id": 11,
+    "name": "Dulaglutide",
+    "use": "Improves blood sugar control in patients with Type 2 Diabetes",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 12,
+    "name": "Empagliflozin",
+    "use": "Helps kidneys remove sugar from blood in diabetes patients",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 13,
+    "name": "Bisoprolol",
+    "use": "Reduces heart rate and blood pressure to prevent heart failure",
+    "keyword": "Heart Health"
+  },
+  {
+    "id": 14,
+    "name": "Clopidogrel",
+    "use": "Prevents blood clots in patients with heart disease",
+    "keyword": "Heart Health"
+  },
+  {
+    "id": 15,
+    "name": "Warfarin",
+    "use": "Thins the blood to prevent stroke and blood clots",
+    "keyword": "Anticoagulant"
+  },
+  {
+    "id": 16,
+    "name": "Rivaroxaban",
+    "use": "Prevents and treats blood clots",
+    "keyword": "Anticoagulant"
+  },
+  {
+    "id": 17,
+    "name": "Apixaban",
+    "use": "Reduces risk of stroke in patients with atrial fibrillation",
+    "keyword": "Anticoagulant"
+  },
+  {
+    "id": 18,
+    "name": "Esomeprazole",
+    "use": "Reduces stomach acid and heals esophagus in GERD patients",
+    "keyword": "Digestive Health"
+  },
+  {
+    "id": 19,
+    "name": "Rabeprazole",
+    "use": "Lowers stomach acid to treat ulcers and acid reflux",
+    "keyword": "Digestive Health"
+  },
+  {
+    "id": 20,
+    "name": "Omeprazole",
+    "use": "Treats acid reflux by reducing stomach acid production",
+    "keyword": "Digestive Health"
+  },
+  {
+    "id": 21,
+    "name": "Simvastatin",
+    "use": "Lowers cholesterol to prevent cardiovascular disease",
+    "keyword": "Cholesterol"
+  },
+  {
+    "id": 22,
+    "name": "Rosuvastatin",
+    "use": "Improves cholesterol levels and prevents plaque buildup",
+    "keyword": "Cholesterol"
+  },
+  {
+    "id": 23,
+    "name": "Candesartan",
+    "use": "Lowers blood pressure and improves heart function",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 24,
+    "name": "Telmisartan",
+    "use": "Treats hypertension and protects kidney in diabetic patients",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 25,
+    "name": "Perindopril",
+    "use": "Reduces high blood pressure and improves heart function",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 26,
+    "name": "Enalapril",
+    "use": "Lowers blood pressure and treats heart failure",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 27,
+    "name": "Hydrochlorothiazide",
+    "use": "Reduces fluid buildup and blood pressure",
+    "keyword": "Diuretic"
+  },
+  {
+    "id": 28,
+    "name": "Furosemide",
+    "use": "Removes excess fluid to treat edema and heart failure",
+    "keyword": "Diuretic"
+  },
+  {
+    "id": 29,
+    "name": "Spironolactone",
+    "use": "Treats fluid retention and lowers blood pressure",
+    "keyword": "Diuretic"
+  },
+  {
+    "id": 30,
+    "name": "Eplerenone",
+    "use": "Helps treat high blood pressure and heart failure",
+    "keyword": "Heart Health"
+  },
+  {
+    "id": 31,
+    "name": "Levothyroxine",
+    "use": "Replaces thyroid hormone in hypothyroidism",
+    "keyword": "Thyroid"
+  },
+  {
+    "id": 32,
+    "name": "Carbimazole",
+    "use": "Reduces thyroid hormone levels in hyperthyroidism",
+    "keyword": "Thyroid"
+  },
+  {
+    "id": 33,
+    "name": "Insulin Glargine",
+    "use": "Controls blood sugar with long-acting insulin",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 34,
+    "name": "Insulin Aspart",
+    "use": "Rapidly lowers blood sugar after meals",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 35,
+    "name": "Pioglitazone",
+    "use": "Increases insulin sensitivity in Type 2 Diabetes",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 36,
+    "name": "Glipizide",
+    "use": "Stimulates insulin release to lower blood sugar",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 37,
+    "name": "Gliclazide",
+    "use": "Controls blood glucose by increasing insulin secretion",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 38,
+    "name": "Canagliflozin",
+    "use": "Helps remove glucose via urine in diabetic patients",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 39,
+    "name": "Dapagliflozin",
+    "use": "Reduces blood glucose and improves heart function",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 40,
+    "name": "Linagliptin",
+    "use": "Increases insulin and lowers glucagon in diabetes",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 41,
+    "name": "Sitagliptin",
+    "use": "Improves blood sugar control in Type 2 Diabetes",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 42,
+    "name": "Vildagliptin",
+    "use": "Lowers glucose by regulating insulin levels",
+    "keyword": "Diabetes"
+  },
+  {
+    "id": 43,
+    "name": "Tamsulosin",
+    "use": "Relieves urinary symptoms in enlarged prostate",
+    "keyword": "Prostate"
+  },
+  {
+    "id": 44,
+    "name": "Finasteride",
+    "use": "Shrinks prostate to relieve urinary difficulty",
+    "keyword": "Prostate"
+  },
+  {
+    "id": 45,
+    "name": "Dutasteride",
+    "use": "Improves urinary flow by reducing prostate size",
+    "keyword": "Prostate"
+  },
+  {
+    "id": 46,
+    "name": "Sildenafil",
+    "use": "Improves blood flow for erectile dysfunction",
+    "keyword": "Erectile Dysfunction"
+  },
+  {
+    "id": 47,
+    "name": "Tadalafil",
+    "use": "Treats erectile dysfunction and enlarged prostate",
+    "keyword": "Erectile Dysfunction"
+  },
+  {
+    "id": 48,
+    "name": "Alendronate",
+    "use": "Strengthens bones to prevent osteoporosis fractures",
+    "keyword": "Bone Health"
+  },
+  {
+    "id": 49,
+    "name": "Risedronate",
+    "use": "Prevents bone loss and treats osteoporosis",
+    "keyword": "Bone Health"
+  },
+  {
+    "id": 50,
+    "name": "Zoledronic Acid",
+    "use": "Treats bone disease in cancer and osteoporosis",
+    "keyword": "Bone Health"
+  },
+  {
+    "id": 51,
+    "name": "Calcitriol",
+    "use": "Improves calcium absorption in kidney disease",
+    "keyword": "Bone Health"
+  },
+  {
+    "id": 52,
+    "name": "Colecalciferol",
+    "use": "Provides Vitamin D for bone and immune health",
+    "keyword": "Bone Health"
+  },
+  {
+    "id": 53,
+    "name": "Iron Polysaccharide",
+    "use": "Treats iron-deficiency anemia",
+    "keyword": "Anemia"
+  },
+  {
+    "id": 54,
+    "name": "Ferrous Sulfate",
+    "use": "Increases iron levels in blood",
+    "keyword": "Anemia"
+  },
+  {
+    "id": 55,
+    "name": "Cyanocobalamin",
+    "use": "Treats Vitamin B12 deficiency",
+    "keyword": "Vitamin B12"
+  },
+  {
+    "id": 56,
+    "name": "Folic Acid",
+    "use": "Supports red blood cell production",
+    "keyword": "Anemia"
+  },
+  {
+    "id": 57,
+    "name": "Methotrexate",
+    "use": "Suppresses immune system in autoimmune disease",
+    "keyword": "Autoimmune"
+  },
+  {
+    "id": 58,
+    "name": "Sulfasalazine",
+    "use": "Reduces inflammation in rheumatoid arthritis",
+    "keyword": "Arthritis"
+  },
+  {
+    "id": 59,
+    "name": "Hydroxychloroquine",
+    "use": "Modifies immune response in lupus and RA",
+    "keyword": "Autoimmune"
+  },
+  {
+    "id": 60,
+    "name": "Azathioprine",
+    "use": "Suppresses immune system in organ transplant",
+    "keyword": "Transplant"
+  },
+  {
+    "id": 61,
+    "name": "Ciclosporin",
+    "use": "Prevents organ rejection post-transplant",
+    "keyword": "Transplant"
+  },
+  {
+    "id": 62,
+    "name": "Tacrolimus",
+    "use": "Suppresses immune system in transplant patients",
+    "keyword": "Transplant"
+  },
+  {
+    "id": 63,
+    "name": "Mycophenolate",
+    "use": "Used to prevent organ rejection",
+    "keyword": "Transplant"
+  },
+  {
+    "id": 64,
+    "name": "Olanzapine",
+    "use": "Controls mood disorders and schizophrenia",
+    "keyword": "Mental Health"
+  },
+  {
+    "id": 65,
+    "name": "Risperidone",
+    "use": "Treats schizophrenia and bipolar disorder",
+    "keyword": "Mental Health"
+  },
+  {
+    "id": 66,
+    "name": "Quetiapine",
+    "use": "Stabilizes mood in bipolar and schizophrenia",
+    "keyword": "Mental Health"
+  },
+  {
+    "id": 67,
+    "name": "Aripiprazole",
+    "use": "Improves mood and reduces psychotic symptoms",
+    "keyword": "Mental Health"
+  },
+  {
+    "id": 68,
+    "name": "Haloperidol",
+    "use": "Controls agitation and psychosis",
+    "keyword": "Mental Health"
+  },
+  {
+    "id": 69,
+    "name": "Lithium Carbonate",
+    "use": "Stabilizes mood swings in bipolar disorder",
+    "keyword": "Mental Health"
+  },
+  {
+    "id": 70,
+    "name": "Valproate",
+    "use": "Prevents seizures and stabilizes mood",
+    "keyword": "Epilepsy"
+  },
+  {
+    "id": 71,
+    "name": "Lamotrigine",
+    "use": "Prevents epileptic seizures and bipolar depression",
+    "keyword": "Epilepsy"
+  },
+  {
+    "id": 72,
+    "name": "Topiramate",
+    "use": "Controls seizures and prevents migraines",
+    "keyword": "Epilepsy"
+  },
+  {
+    "id": 73,
+    "name": "Gabapentin",
+    "use": "Treats nerve pain and seizures",
+    "keyword": "Epilepsy"
+  },
+  {
+    "id": 74,
+    "name": "Levetiracetam",
+    "use": "Reduces frequency of epileptic seizures",
+    "keyword": "Epilepsy"
+  },
+  {
+    "id": 75,
+    "name": "Donepezil",
+    "use": "Improves memory in Alzheimer's disease",
+    "keyword": "Alzheimer's"
+  },
+  {
+    "id": 76,
+    "name": "Memantine",
+    "use": "Helps manage moderate to severe Alzheimer’s",
+    "keyword": "Alzheimer's"
+  },
+  {
+    "id": 77,
+    "name": "Baclofen",
+    "use": "Relieves muscle spasms in neurological disorders",
+    "keyword": "Muscle Relaxant"
+  },
+  {
+    "id": 78,
+    "name": "Tizanidine",
+    "use": "Relaxes muscles in spasticity conditions",
+    "keyword": "Muscle Relaxant"
+  },
+  {
+    "id": 79,
+    "name": "Diazepam",
+    "use": "Relieves anxiety, muscle spasms, and seizures",
+    "keyword": "Anxiety"
+  },
+  {
+    "id": 80,
+    "name": "Lorazepam",
+    "use": "Treats anxiety and insomnia",
+    "keyword": "Anxiety"
+  },
+  {
+    "id": 81,
+    "name": "Clonazepam",
+    "use": "Controls seizures and panic attacks",
+    "keyword": "Epilepsy"
+  },
+  {
+    "id": 82,
+    "name": "Zolpidem",
+    "use": "Helps with short-term insomnia treatment",
+    "keyword": "Sleep Aid"
+  },
+  {
+    "id": 83,
+    "name": "Temazepam",
+    "use": "Improves sleep for those with insomnia",
+    "keyword": "Sleep Aid"
+  },
+  {
+    "id": 84,
+    "name": "Melatonin",
+    "use": "Regulates sleep cycles",
+    "keyword": "Sleep Aid"
+  },
+  {
+    "id": 85,
+    "name": "Propranolol",
+    "use": "Lowers blood pressure and controls heart rate",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 86,
+    "name": "Atenolol",
+    "use": "Treats high blood pressure and chest pain",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 87,
+    "name": "Nifedipine",
+    "use": "Relaxes blood vessels to lower blood pressure",
+    "keyword": "Hypertension"
+  },
+  {
+    "id": 88,
+    "name": "Verapamil",
+    "use": "Controls heart rhythm and blood pressure",
+    "keyword": "Heart Health"
+  },
+  {
+    "id": 89,
+    "name": "Diltiazem",
+    "use": "Treats angina and hypertension",
+    "keyword": "Heart Health"
+  },
+  {
+    "id": 90,
+    "name": "Isosorbide Mononitrate",
+    "use": "Prevents chest pain in heart patients",
+    "keyword": "Heart Health"
+  },
+  {
+    "id": 91,
+    "name": "Glyceryl Trinitrate",
+    "use": "Relieves angina by widening blood vessels",
+    "keyword": "Heart Health"
+  },
+  {
+    "id": 92,
+    "name": "Ivabradine",
+    "use": "Slows heart rate in heart failure patients",
+    "keyword": "Heart Health"
+  },
+  {
+    "id": 93,
+    "name": "Digoxin",
+    "use": "Improves heart pumping in heart failure",
+    "keyword": "Heart Health"
+  },
+  {
+    "id": 94,
+    "name": "Theophylline",
+    "use": "Opens airways in asthma and COPD",
+    "keyword": "Respiratory"
+  },
+  {
+    "id": 95,
+    "name": "Montelukast",
+    "use": "Reduces inflammation in asthma",
+    "keyword": "Respiratory"
+  },
+  {
+    "id": 96,
+    "name": "Fluticasone",
+    "use": "Reduces inflammation in asthma and allergies",
+    "keyword": "Respiratory"
+  },
+  {
+    "id": 97,
+    "name": "Beclometasone",
+    "use": "Prevents asthma attacks by reducing airway swelling",
+    "keyword": "Respiratory"
+  },
+  {
+    "id": 98,
+    "name": "Budesonide",
+    "use": "Controls asthma and nasal inflammation",
+    "keyword": "Respiratory"
+  },
+  {
+    "id": 99,
+    "name": "Formoterol",
+    "use": "Relaxes airway muscles for easier breathing",
+    "keyword": "Respiratory"
+  },
+  {
+    "id": 100,
+    "name": "Tiotropium",
+    "use": "Improves airflow in COPD",
+    "keyword": "Respiratory"
+  }
+]
